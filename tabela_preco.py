@@ -249,8 +249,11 @@ def executar_tabela_preco(df_base=None):
         for c in ["Cod.Produto", "Desc.Produto", "Data.Preco", "Grupo", "Subgrupo", "Linha", "Ncm"]:
             df[c] = df[c].astype(str).str.strip()
 
-        df = df[df["Grupo"].astype(str).str.strip() != "0"].copy()
+        #df = df[df["Grupo"].astype(str).str.strip() != "0"].copy()
+        GRUPOS_EXCLUIR = ["0", "500", "800", "801"]
 
+        df = df[~df["Grupo"].astype(str).str.strip().isin(GRUPOS_EXCLUIR)].copy()
+        
         for c in COLUNAS_NUMERICAS:
             df[c] = df[c].apply(normalizar_numero)
 
